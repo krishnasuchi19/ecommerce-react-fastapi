@@ -2,15 +2,19 @@ from fastapi import FastAPI, Depends, Request
 from app.database import engine, get_db
 from app.models.base import Base
 from app.models.user import User
+from app.models.products import Products
 from app.routers.auth import router
+from app.routers.products import router as products_router
 from sqlalchemy.orm import Session
 from app.core.dependencies import get_current_user
+
 
 app = FastAPI()
 
 Base.metadata.create_all(bind=engine)
 
 app.include_router(router)
+app.include_router(products_router)
 
 @app.get("/")
 def home(
